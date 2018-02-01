@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CA81DA3320234B76000163D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA81DA3220234B76000163D6 /* AppDelegate.swift */; };
-		CA81DA3520234B76000163D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA81DA3420234B76000163D6 /* ViewController.swift */; };
+		CA81DA3520234B76000163D6 /* WhereInTheWorldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA81DA3420234B76000163D6 /* WhereInTheWorldViewController.swift */; };
 		CA81DA3820234B76000163D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA81DA3620234B76000163D6 /* Main.storyboard */; };
 		CA81DA3B20234B76000163D6 /* WhereInTheWorld.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA81DA3920234B76000163D6 /* WhereInTheWorld.xcdatamodeld */; };
 		CA81DA3D20234B76000163D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA81DA3C20234B76000163D6 /* Assets.xcassets */; };
@@ -18,7 +18,7 @@
 /* Begin PBXFileReference section */
 		CA81DA2F20234B76000163D6 /* WhereInTheWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhereInTheWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA81DA3220234B76000163D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CA81DA3420234B76000163D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CA81DA3420234B76000163D6 /* WhereInTheWorldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereInTheWorldViewController.swift; sourceTree = "<group>"; };
 		CA81DA3720234B76000163D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA81DA3A20234B76000163D6 /* WhereInTheWorld.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WhereInTheWorld.xcdatamodel; sourceTree = "<group>"; };
 		CA81DA3C20234B76000163D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				CA81DA3220234B76000163D6 /* AppDelegate.swift */,
-				CA81DA3420234B76000163D6 /* ViewController.swift */,
+				CA81DA3420234B76000163D6 /* WhereInTheWorldViewController.swift */,
 				CA81DA3620234B76000163D6 /* Main.storyboard */,
 				CA81DA3C20234B76000163D6 /* Assets.xcassets */,
 				CA81DA3E20234B76000163D6 /* LaunchScreen.storyboard */,
@@ -140,7 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA81DA3B20234B76000163D6 /* WhereInTheWorld.xcdatamodeld in Sources */,
-				CA81DA3520234B76000163D6 /* ViewController.swift in Sources */,
+				CA81DA3520234B76000163D6 /* WhereInTheWorldViewController.swift in Sources */,
 				CA81DA3320234B76000163D6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
