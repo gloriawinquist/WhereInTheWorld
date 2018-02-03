@@ -11,12 +11,12 @@ import UIKit
 // This app uses the flickr api to search for images of a given country and then have the user guess which country the image is from. Flickr api documentation can be found here: https://www.flickr.com/services/api/
 let flickrApiKey = "51e35c229eb831ee98ec4530983f991c"
 
-class WhereInTheWorldViewController: UIViewController {
+class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var playButton: UIButton!
-    @IBOutlet var answerButton: UIButton!
     @IBOutlet var label: UILabel!
+    @IBOutlet var tableView: UITableView!
     
     let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=51e35c229eb831ee98ec4530983f991c&safe_search=1&content_type=1&media=photos&accuracy=3&geo_contest=2&per_page=5&page=1&format=json&nojsoncallback=1"
     
@@ -68,7 +68,15 @@ class WhereInTheWorldViewController: UIViewController {
         "Zimbabwe"
     ]
     
+    // when true, we show the correct country in green and a wrong guess in red in the tableview
+    var shouldShowAnswer = false
+    
     var selectedCountry = "United States"
+    var guessedCountry: String?
+    
+    // array of four random coutries (including selected country) to display as multiple choice selection
+    var guesses: [String] = []
+    
     var images: [UIImage] = []
     var imageIndex = 0
     
@@ -76,10 +84,13 @@ class WhereInTheWorldViewController: UIViewController {
         
         // Disable play button, enable answer button
         playButton.isEnabled = false
-        answerButton.isEnabled = true
+        tableView.isHidden = true
+        shouldShowAnswer = false
+        guessedCountry = nil
         imageView.image = nil
         label.text = "Searching..."
         images.removeAll()
+        guesses.removeAll()
         imageIndex = 0
         
         // Select a random country from the array to search for
@@ -92,15 +103,19 @@ class WhereInTheWorldViewController: UIViewController {
         
         // Make the picture url request
         makePictureRequest(with: searchUrl)
-    }
-    
-    @IBAction func handleAnswerButtonTapped(_ sender: UIButton) {
         
-        // Enable play button, disable answer button
-        playButton.setTitle("Play Again", for: .normal)
-        playButton.isEnabled = true
-        answerButton.isEnabled = false
-        label.text = selectedCountry
+        // Create the guesses array of countries
+        // a SET can only contain unique elements
+        var uniqueGuesses = Set<String>()
+        uniqueGuesses.insert(selectedCountry)
+        
+        // keep trying to add a random member of countries to unique guesses until there are 4 guesses
+        while uniqueGuesses.count < 4 {
+            let randomIndex = Int(arc4random_uniform(UInt32(count)))
+            uniqueGuesses.insert(countries[randomIndex])
+        }
+        guesses = Array(uniqueGuesses)
+        tableView.reloadData()
     }
     
     @IBAction func handlePictureTapped(_ sender: UITapGestureRecognizer) {
@@ -121,8 +136,7 @@ class WhereInTheWorldViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        answerButton.isEnabled = false
+        tableView.isHidden = true
     }
     
     //MARK: - Private Methods
@@ -209,9 +223,56 @@ class WhereInTheWorldViewController: UIViewController {
                 // Display image if its the first one
                 if display {
                     self?.imageView.image = image
+                    self?.tableView.isHidden = false
                 }
             }
         }
         imageTask.resume()
+    }
+    
+    //MARK: - UITableViewDataSource Methods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "countrySelectionCellIdentifier", for: indexPath)
+        
+        // reset the background color of the cells to white and the text to dark
+        cell.backgroundColor = .white
+        cell.textLabel?.textColor = .darkText
+        
+        if guesses.count > indexPath.row {
+            
+            let guess = guesses[indexPath.row]
+            cell.textLabel?.text = guess
+            
+            if shouldShowAnswer {
+                if guess == selectedCountry {
+                    cell.backgroundColor = .green
+                    cell.textLabel?.textColor = .white
+                } else if guess == guessedCountry {
+                    cell.backgroundColor = .red
+                    cell.textLabel?.textColor = .white
+                }
+            }
+            
+        }
+        return cell
+    }
+    
+    //MARK: - UITableViewDelegate Methods
+    
+    // set the guessed country and then reload the table to show the correct answer
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if guesses.count > indexPath.row {
+            guessedCountry = guesses[indexPath.row]
+        }
+        shouldShowAnswer = true
+        playButton.setTitle("Play Again", for: .normal)
+        playButton.isEnabled = true
+        label.text = selectedCountry
+        tableView.reloadData()
     }
 }
