@@ -13,6 +13,7 @@
 		CA81DA3B20234B76000163D6 /* WhereInTheWorld.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA81DA3920234B76000163D6 /* WhereInTheWorld.xcdatamodeld */; };
 		CA81DA3D20234B76000163D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA81DA3C20234B76000163D6 /* Assets.xcassets */; };
 		CA81DA4020234B76000163D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA81DA3E20234B76000163D6 /* LaunchScreen.storyboard */; };
+		CA83CAAF2025F0F500AD34DF /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA83CAAE2025F0F500AD34DF /* Photo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		CA81DA3C20234B76000163D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA81DA3F20234B76000163D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA81DA4120234B76000163D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA83CAAE2025F0F500AD34DF /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			children = (
 				CA81DA3220234B76000163D6 /* AppDelegate.swift */,
 				CA81DA3420234B76000163D6 /* WhereInTheWorldViewController.swift */,
+				CA83CAAE2025F0F500AD34DF /* Photo.swift */,
 				CA81DA3620234B76000163D6 /* Main.storyboard */,
 				CA81DA3C20234B76000163D6 /* Assets.xcassets */,
 				CA81DA3E20234B76000163D6 /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA83CAAF2025F0F500AD34DF /* Photo.swift in Sources */,
 				CA81DA3B20234B76000163D6 /* WhereInTheWorld.xcdatamodeld in Sources */,
 				CA81DA3520234B76000163D6 /* WhereInTheWorldViewController.swift in Sources */,
 				CA81DA3320234B76000163D6 /* AppDelegate.swift in Sources */,

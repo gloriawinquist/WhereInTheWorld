@@ -19,14 +19,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1e-f4-kCX">
-                                <rect key="frame" x="172" y="458" width="30" height="30"/>
+                                <rect key="frame" x="172" y="527" width="30" height="30"/>
                                 <state key="normal" title="Play"/>
                                 <connections>
                                     <action selector="handlePlayButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZDv-Ge-aX0"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap the Play button and I will show you a random country here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ItT-jm-a9j">
-                                <rect key="frame" x="37.5" y="262" width="300" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap the play button to see a picture." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ItT-jm-a9j">
+                                <rect key="frame" x="37.5" y="436" width="300" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="Dmr-1O-qQ8"/>
                                     <constraint firstAttribute="height" constant="41" id="qUM-V6-sZT"/>
@@ -35,18 +35,36 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q5j-jn-SnV">
+                                <rect key="frame" x="10" y="30" width="355" height="387"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgy-7H-XeC">
+                                <rect key="frame" x="147.5" y="587" width="80" height="30"/>
+                                <state key="normal" title="Get Answer"/>
+                                <connections>
+                                    <action selector="handleAnswerButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Lgb-Zr-cgB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="s1e-f4-kCX" secondAttribute="bottom" constant="179" id="1qr-lt-vEB"/>
+                            <constraint firstItem="ItT-jm-a9j" firstAttribute="top" secondItem="q5j-jn-SnV" secondAttribute="bottom" constant="19" id="2Vw-UQ-YNv"/>
+                            <constraint firstItem="q5j-jn-SnV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="2tR-DZ-vf9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="q5j-jn-SnV" secondAttribute="trailing" constant="10" id="6VV-nr-1Wt"/>
+                            <constraint firstItem="Lgy-7H-XeC" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="IFk-YJ-G0p"/>
                             <constraint firstItem="ItT-jm-a9j" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ni2-IW-8pY"/>
+                            <constraint firstItem="s1e-f4-kCX" firstAttribute="top" secondItem="ItT-jm-a9j" secondAttribute="bottom" constant="50" id="OPY-r8-tJh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Lgy-7H-XeC" secondAttribute="bottom" constant="50" id="ePr-sU-Ltv"/>
+                            <constraint firstItem="q5j-jn-SnV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="fzY-Yz-43x"/>
+                            <constraint firstItem="Lgy-7H-XeC" firstAttribute="top" secondItem="s1e-f4-kCX" secondAttribute="bottom" constant="30" id="gxC-Tr-TZM"/>
                             <constraint firstItem="s1e-f4-kCX" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="rsA-KI-Vkh"/>
-                            <constraint firstItem="ItT-jm-a9j" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="242" id="wcM-ho-HpP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="answerLabel" destination="ItT-jm-a9j" id="VCW-3z-8Z5"/>
+                        <outlet property="answerButton" destination="Lgy-7H-XeC" id="dmm-5a-HgA"/>
+                        <outlet property="imageView" destination="q5j-jn-SnV" id="E1A-NL-HGB"/>
+                        <outlet property="label" destination="ItT-jm-a9j" id="VCW-3z-8Z5"/>
                         <outlet property="playButton" destination="s1e-f4-kCX" id="1rK-1Y-gaT"/>
                     </connections>
                 </viewController>
