@@ -20,6 +20,9 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s1e-f4-kCX">
                                 <rect key="frame" x="172" y="527" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5GQ-cF-eu4"/>
+                                </constraints>
                                 <state key="normal" title="Play"/>
                                 <connections>
                                     <action selector="handlePlayButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZDv-Ge-aX0"/>
@@ -35,11 +38,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q5j-jn-SnV">
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q5j-jn-SnV">
                                 <rect key="frame" x="10" y="30" width="355" height="387"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="2uQ-Af-Es4" appends="YES" id="Wuq-dJ-7hf"/>
+                                </connections>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgy-7H-XeC">
                                 <rect key="frame" x="147.5" y="587" width="80" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="qqD-cl-VpM"/>
+                                </constraints>
                                 <state key="normal" title="Get Answer"/>
                                 <connections>
                                     <action selector="handleAnswerButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Lgb-Zr-cgB"/>
@@ -69,6 +79,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="2uQ-Af-Es4">
+                    <connections>
+                        <action selector="handlePictureTapped:" destination="BYZ-38-t0r" id="u1A-K2-oq9"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="140" y="122.78860569715144"/>
         </scene>

@@ -18,7 +18,7 @@ class WhereInTheWorldViewController: UIViewController {
     @IBOutlet var answerButton: UIButton!
     @IBOutlet var label: UILabel!
     
-    let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=51e35c229eb831ee98ec4530983f991c&safe_search=1&content_type=1&media=photos&accuracy=3&geo_contest=2&per_page=1&page=1&format=json&nojsoncallback=1"
+    let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=51e35c229eb831ee98ec4530983f991c&safe_search=1&content_type=1&media=photos&accuracy=3&geo_contest=2&per_page=5&page=1&format=json&nojsoncallback=1"
     
     let countries = [
         "Afghanistan",
@@ -69,6 +69,8 @@ class WhereInTheWorldViewController: UIViewController {
     ]
     
     var selectedCountry = "United States"
+    var images: [UIImage] = []
+    var imageIndex = 0
     
     @IBAction func handlePlayButtonTapped(_ sender: UIButton) {
         
@@ -77,6 +79,8 @@ class WhereInTheWorldViewController: UIViewController {
         answerButton.isEnabled = true
         imageView.image = nil
         label.text = "Searching..."
+        images.removeAll()
+        imageIndex = 0
         
         // Select a random country from the array to search for
         let count = countries.count
@@ -93,11 +97,27 @@ class WhereInTheWorldViewController: UIViewController {
     @IBAction func handleAnswerButtonTapped(_ sender: UIButton) {
         
         // Enable play button, disable answer button
+        playButton.setTitle("Play Again", for: .normal)
         playButton.isEnabled = true
         answerButton.isEnabled = false
         label.text = selectedCountry
     }
     
+    @IBAction func handlePictureTapped(_ sender: UITapGestureRecognizer) {
+        
+        // show the next picture in the array
+        imageIndex += 1
+        
+        // when the image index gets to the end of the array, set it back to 0
+        if imageIndex >= images.count {
+            imageIndex = 0
+        }
+        
+        // always check that your imageIndex is not out of bounds of the array to prevent a crash
+        if images.count > imageIndex {
+            imageView.image = images[imageIndex]
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,11 +168,16 @@ class WhereInTheWorldViewController: UIViewController {
             do {
                 let photoResponse = try decoder.decode(PhotoResponse.self, from: responseData)
                 
-                // 7.) Get the URL for the photo
-                if let imageUrl = photoResponse.photos.photo.first?.imageUrl() {
-                
-                    // 8.) Pass to our method that will display the image
-                    self?.displayImage(from: imageUrl)
+                // 7.) Get the URL for each photo and add each image to the image array
+                var shouldDisplayPhoto = true
+                for photo in photoResponse.photos.photo {
+                    if let imageUrl = photo.imageUrl() {
+                        
+                        // 8.) Pass to our method that will fetch the image and then add it to our images array
+                        // only display the first photo
+                        self?.fetchImage(from: imageUrl, display: shouldDisplayPhoto)
+                        shouldDisplayPhoto = false
+                    }
                 }
             }
             catch let jsonError {
@@ -166,7 +191,7 @@ class WhereInTheWorldViewController: UIViewController {
     /// Displays the image for the passed in url in the imageView.
     ///
     /// - Parameter imageUrl: flickr url for an image
-    private func displayImage(from imageUrl: URL) {
+    private func fetchImage(from imageUrl: URL, display: Bool) {
         
         let session = URLSession(configuration: URLSessionConfiguration.default)
         let imageRequest = URLRequest(url: imageUrl)
@@ -176,11 +201,15 @@ class WhereInTheWorldViewController: UIViewController {
                 print("Something went wrong in getting the image.")
                 return
             }
+            self?.images.append(image)
             // All UI Updates must be done on the main thread - so you put them in this closure
             DispatchQueue.main.async {
-                // Display image and change label text to be a question
-                self?.imageView.image = image
+                // Change label text to be a question
                 self?.label.text = "Where in the World is This?"
+                // Display image if its the first one
+                if display {
+                    self?.imageView.image = image
+                }
             }
         }
         imageTask.resume()
