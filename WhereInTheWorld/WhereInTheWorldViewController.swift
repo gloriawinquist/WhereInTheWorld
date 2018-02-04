@@ -18,47 +18,67 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
     @IBOutlet var label: UILabel!
     @IBOutlet var tableView: UITableView!
     
-    let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=51e35c229eb831ee98ec4530983f991c&safe_search=1&content_type=1&media=photos&accuracy=3&geo_contest=2&per_page=5&page=1&format=json&nojsoncallback=1"
+    let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=51e35c229eb831ee98ec4530983f991c&safe_search=1&content_type=1&media=photos&accuracy=3&geo_contest=2&in_gallery=1&per_page=200&page=1&format=json&nojsoncallback=1"
     
     let countries = [
         "Afghanistan",
+        "Albania",
+        "Algeria",
+        "Angola",
+        "Argentina",
+        "Australia",
         "Austria",
         "The Bahamas",
         "Belgium",
+        "Botswana",
         "Brazil",
+        "Bulgaria",
         "Canada",
         "Chile",
         "China",
         "Costa Rica",
+        "Cuba",
         "Denmark",
+        "Dominican Republic",
         "Egypt",
         "Ethiopia",
         "Finland",
         "France",
         "Germany",
         "Greece",
+        "Guatemala",
         "Haiti",
-        "Italy",
+        "Hong Kong",
+        "Iceland",
         "India",
         "Iran",
+        "Iraq",
         "Ireland",
+        "Israel",
+        "Italy",
         "Jamaica",
+        "Japan",
         "Kazakhstan",
         "Kenya",
         "Lebanon",
+        "Libya",
         "Mexico",
         "Morocco",
+        "Netherlands",
         "New Zealand",
         "Nigeria",
+        "North Korea",
+        "Norway",
+        "Pakistan",
         "Peru",
+        "Poland",
         "Portugal",
         "Russia",
-        "Saudi Arabia",
+        "Rwanda",
         "Spain",
         "South Korea",
         "Sweden",
         "Switzerland",
-        "Syria",
         "Thailand",
         "Uganda",
         "United Kingdom",
@@ -67,6 +87,12 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         "Vatican City",
         "Zimbabwe"
     ]
+    
+    let numberOfQuestions = 20
+    var question = 0
+    var score = 0
+    
+    var remainingCountries: [String] = []
     
     // when true, we show the correct country in green and a wrong guess in red in the tableview
     var shouldShowAnswer = false
@@ -94,9 +120,10 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         imageIndex = 0
         
         // Select a random country from the array to search for
-        let count = countries.count
+        let count = remainingCountries.count
         let index = Int(arc4random_uniform(UInt32(count)))
-        selectedCountry = countries[index]
+        // This time remove the country from the array so that it does not appear again in the quiz
+        selectedCountry = remainingCountries.remove(at: index)
         
         // Create the flickr url with the search term
         let searchUrl = flickrSearchUrl(for: selectedCountry)
@@ -136,6 +163,7 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        remainingCountries = countries
         tableView.isHidden = true
     }
     
@@ -184,7 +212,14 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
                 
                 // 7.) Get the URL for each photo and add each image to the image array
                 var shouldDisplayPhoto = true
-                for photo in photoResponse.photos.photo {
+                
+                // Let's mix it up! Get 5 random photos instead of the same 5 every time
+                for _ in 1...5 {
+                    // Select a random photo from the photos that were returned
+                    let count = photoResponse.photos.photo.count
+                    let index = Int(arc4random_uniform(UInt32(count)))
+                    let photo = photoResponse.photos.photo[index]
+                    
                     if let imageUrl = photo.imageUrl() {
                         
                         // 8.) Pass to our method that will fetch the image and then add it to our images array
@@ -230,6 +265,17 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         imageTask.resume()
     }
     
+    private func gameOver() {
+        // display score
+        label.text = "You got \(score) out of \(numberOfQuestions)!!!"
+        playButton.setTitle("Play Again", for: .normal)
+        
+        // reset state
+        question = 0
+        score = 0
+        remainingCountries = countries
+    }
+    
     //MARK: - UITableViewDataSource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -257,7 +303,6 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
                     cell.textLabel?.textColor = .white
                 }
             }
-            
         }
         return cell
     }
@@ -269,10 +314,25 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         if guesses.count > indexPath.row {
             guessedCountry = guesses[indexPath.row]
         }
+        
+        // Track the score
+        if guessedCountry == selectedCountry {
+            label.text = "Congratulations! You got the right answer!"
+            score += 1
+        } else {
+            label.text = "Wrong answer. Better luck next time."
+        }
+        
         shouldShowAnswer = true
-        playButton.setTitle("Play Again", for: .normal)
-        playButton.isEnabled = true
-        label.text = selectedCountry
         tableView.reloadData()
+        playButton.isEnabled = true
+        question += 1
+        
+        // Check and see if the game has ended
+        if question == numberOfQuestions {
+            gameOver()
+        } else {
+            playButton.setTitle("Next", for: .normal)
+        }
     }
 }
