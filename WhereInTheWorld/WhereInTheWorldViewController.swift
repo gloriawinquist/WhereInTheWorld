@@ -17,8 +17,10 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
     @IBOutlet var playButton: UIButton!
     @IBOutlet var label: UILabel!
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var myScoreLabel: UILabel!
+    @IBOutlet var highScoreLabel: UILabel!
     
-    let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=51e35c229eb831ee98ec4530983f991c&safe_search=1&content_type=1&media=photos&accuracy=3&geo_contest=2&in_gallery=1&per_page=200&page=1&format=json&nojsoncallback=1"
+    let flickrUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=51e35c229eb831ee98ec4530983f991c&safe_search=1&content_type=1&media=photos&accuracy=3&geo_contest=2&in_gallery=1&per_page=500&page=1&format=json&nojsoncallback=1"
     
     let countries = [
         "Afghanistan",
@@ -91,6 +93,7 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
     let numberOfQuestions = 20
     var question = 0
     var score = 0
+    var highScore = 0
     
     var remainingCountries: [String] = []
     
@@ -143,6 +146,7 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         }
         guesses = Array(uniqueGuesses)
         tableView.reloadData()
+        tableView.isUserInteractionEnabled = true
     }
     
     @IBAction func handlePictureTapped(_ sender: UITapGestureRecognizer) {
@@ -165,6 +169,7 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         super.viewDidLoad()
         remainingCountries = countries
         tableView.isHidden = true
+        getHighScore()
     }
     
     //MARK: - Private Methods
@@ -276,6 +281,21 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         remainingCountries = countries
     }
     
+    private func getHighScore() {
+        let defaults = UserDefaults.standard
+        if let theHighScore = defaults.object(forKey: "highScore") as? Int {
+            highScore = theHighScore
+        }
+        highScoreLabel.text = "High Score: \(highScore)"
+    }
+    
+    private func setNewHighScore(_ score: Int) {
+        let defaults = UserDefaults.standard
+        defaults.set(score, forKey: "highScore")
+        defaults.synchronize()
+        highScoreLabel.text = "High Score: \(score)"
+    }
+    
     //MARK: - UITableViewDataSource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -319,12 +339,17 @@ class WhereInTheWorldViewController: UIViewController, UITableViewDataSource, UI
         if guessedCountry == selectedCountry {
             label.text = "Congratulations! You got the right answer!"
             score += 1
+            myScoreLabel.text = "Score: \(score)"
+            if score > highScore {
+                setNewHighScore(score)
+            }
         } else {
             label.text = "Wrong answer. Better luck next time."
         }
         
         shouldShowAnswer = true
         tableView.reloadData()
+        tableView.isUserInteractionEnabled = false
         playButton.isEnabled = true
         question += 1
         
